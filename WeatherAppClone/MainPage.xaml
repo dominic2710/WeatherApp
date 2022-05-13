@@ -1,217 +1,32 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage
+<Shell
     x:Class="WeatherAppClone.MainPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:fontHelper="clr-namespace:WeatherAppClone.Helpers"
+    xmlns:local="clr-namespace:WeatherAppClone.Pages"
     xmlns:viewModel="clr-namespace:WeatherAppClone.ViewModels"
-    BackgroundColor="{DynamicResource SecondaryColor}">
-    <ContentPage.BindingContext>
+    BackgroundColor="#FF1B3147"
+    Shell.NavBarIsVisible="False"
+    Shell.TabBarIsVisible="True"
+    Shell.TabBarTitleColor="#0984e3"
+    Shell.UnselectedColor="LightGray">
+    <Shell.BindingContext>
         <viewModel:MainPageViewModel />
-    </ContentPage.BindingContext>
-    <RefreshView
-        Command="{Binding RefreshCommand}"
-        IsRefreshing="{Binding IsRefreshing}"
-        RefreshColor="Teal">
-        <Grid>
-            <ScrollView>
-                <VerticalStackLayout>
-                    <Label
-                        Margin="0,20,0,0"
-                        FontSize="26"
-                        HorizontalOptions="Center"
-                        Text="{Binding LocationName}" />
-                    <HorizontalStackLayout Margin="0,10,0,0" HorizontalOptions="Center">
-                        <Label FontSize="45" Text="{Binding CurrentWeather.TempC}" />
-                        <Label FontSize="20" Text="o" />
-                        <Label FontSize="45" Text="C" />
-                    </HorizontalStackLayout>
-                    <Frame
-                        Margin="0,10,0,0"
-                        Padding="10,5,10,5"
-                        Background="#363363"
-                        CornerRadius="90"
-                        HorizontalOptions="Center">
-                        <Label Text="{Binding CurrentWeather.Condition.Text}" />
-                    </Frame>
+    </Shell.BindingContext>
 
-                    <Grid Margin="20,40,20,0">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition />
-                            <ColumnDefinition />
-                            <ColumnDefinition />
-                        </Grid.ColumnDefinitions>
-
-                        <HorizontalStackLayout>
-                            <Image BackgroundColor="Transparent" VerticalOptions="Center">
-                                <Image.Source>
-                                    <FontImageSource
-                                        FontFamily="IconFontTypes"
-                                        Glyph="{x:Static fontHelper:IconFont.Water_drop}"
-                                        Size="18"
-                                        Color="SkyBlue" />
-                                </Image.Source>
-                            </Image>
-                            <Label
-                                Margin="10,0,0,0"
-                                Text="{Binding CurrentWeather.Humidity, StringFormat='{0}%'}"
-                                VerticalOptions="Center" />
-                        </HorizontalStackLayout>
-
-                        <HorizontalStackLayout Grid.Column="1" HorizontalOptions="Center">
-                            <Image BackgroundColor="Transparent" VerticalOptions="Center">
-                                <Image.Source>
-                                    <FontImageSource
-                                        FontFamily="IconFontTypes"
-                                        Glyph="{x:Static fontHelper:IconFont.Info_outline}"
-                                        Size="18"
-                                        Color="SkyBlue" />
-                                </Image.Source>
-                            </Image>
-                            <Label
-                                Margin="10,0,0,0"
-                                Text="{Binding CurrentWeather.PressureMb, StringFormat='{0} mBar'}"
-                                VerticalOptions="Center" />
-                        </HorizontalStackLayout>
-
-                        <HorizontalStackLayout Grid.Column="2" HorizontalOptions="End">
-                            <Image BackgroundColor="Transparent" VerticalOptions="Center">
-                                <Image.Source>
-                                    <FontImageSource
-                                        FontFamily="IconFontTypes"
-                                        Glyph="{x:Static fontHelper:IconFont.Air}"
-                                        Size="18"
-                                        Color="SkyBlue" />
-                                </Image.Source>
-                            </Image>
-                            <Label
-                                Margin="10,0,0,0"
-                                Text="{Binding CurrentWeather.WindKph, StringFormat='{0} km/h'}"
-                                VerticalOptions="Center" />
-                        </HorizontalStackLayout>
-                    </Grid>
-
-                    <Grid Margin="0,50,0,0">
-                        <Image Margin="0,10,0,0" Source="sunset_line.png" />
-                        <HorizontalStackLayout Margin="20,0,0,0">
-                            <Image BackgroundColor="Transparent" VerticalOptions="Start">
-                                <Image.Source>
-                                    <FontImageSource
-                                        FontFamily="IconFontTypes"
-                                        Glyph="{x:Static fontHelper:IconFont.Sunny}"
-                                        Size="18"
-                                        Color="Yellow" />
-                                </Image.Source>
-                            </Image>
-                            <Label
-                                Margin="5,0,0,0"
-                                Text="{Binding WeatherForecastDays[0].Astro.Sunrise}"
-                                VerticalOptions="Start" />
-                        </HorizontalStackLayout>
-
-                        <HorizontalStackLayout Margin="0,0,20,30" HorizontalOptions="End">
-                            <Image
-                                Margin="20,0,0,0"
-                                BackgroundColor="Transparent"
-                                VerticalOptions="End">
-                                <Image.Source>
-                                    <FontImageSource
-                                        FontFamily="IconFontTypes"
-                                        Glyph="{x:Static fontHelper:IconFont.Circle}"
-                                        Size="18"
-                                        Color="LightYellow" />
-                                </Image.Source>
-                            </Image>
-                            <Label
-                                Margin="5,0,0,0"
-                                Text="{Binding WeatherForecastDays[0].Astro.Sunset}"
-                                VerticalOptions="End" />
-                        </HorizontalStackLayout>
-                    </Grid>
-
-                    <Label
-                        Margin="20,0,0,0"
-                        Text="Today"
-                        TextColor="SkyBlue" />
-
-                    <ScrollView
-                        Margin="0,20,0,0"
-                        HorizontalScrollBarVisibility="Never"
-                        Orientation="Horizontal">
-
-                        <CollectionView ItemsLayout="HorizontalList" ItemsSource="{Binding WeatherForecastHours}">
-                            <CollectionView.ItemTemplate>
-                                <DataTemplate>
-                                    <VerticalStackLayout Margin="0,0,30,0" Spacing="5">
-                                        <Label HorizontalOptions="Center" Text="{Binding Time}" />
-                                        <Image
-                                            HeightRequest="32"
-                                            HorizontalOptions="Center"
-                                            Source="{Binding Condition.Icon, StringFormat='https:{0}'}"
-                                            WidthRequest="32" />
-                                        <HorizontalStackLayout HorizontalOptions="Center">
-                                            <Label Text="{Binding TempC}" />
-                                            <Label
-                                                FontSize="8"
-                                                Text="o"
-                                                VerticalOptions="Start"
-                                                VerticalTextAlignment="Start" />
-                                        </HorizontalStackLayout>
-                                    </VerticalStackLayout>
-                                </DataTemplate>
-                            </CollectionView.ItemTemplate>
-                        </CollectionView>
-                    </ScrollView>
-
-                    <CollectionView
-                        Margin="20,30,0,0"
-                        ItemsLayout="VerticalList"
-                        ItemsSource="{Binding WeatherForecastDays}">
-                        <CollectionView.ItemTemplate>
-                            <DataTemplate>
-                                <AbsoluteLayout Margin="0,10,0,0">
-                                    <Label
-                                        AbsoluteLayout.LayoutBounds="0,0.5"
-                                        AbsoluteLayout.LayoutFlags="PositionProportional"
-                                        Text="{Binding Date, Converter={StaticResource DateToDayOfWeekConverter}}" />
-                                    <Image
-                                        AbsoluteLayout.LayoutBounds="0.5,0.5"
-                                        AbsoluteLayout.LayoutFlags="PositionProportional"
-                                        HeightRequest="32"
-                                        HorizontalOptions="Center"
-                                        Source="{Binding Day.Condition.Icon, StringFormat='https:{0}'}"
-                                        WidthRequest="32" />
-                                    <HorizontalStackLayout
-                                        AbsoluteLayout.LayoutBounds="0.75,0.5"
-                                        AbsoluteLayout.LayoutFlags="PositionProportional"
-                                        HorizontalOptions="Center">
-                                        <Label Text="{Binding Day.MintempC}" />
-                                        <Label
-                                            FontSize="8"
-                                            Text="o"
-                                            VerticalOptions="Start"
-                                            VerticalTextAlignment="Start" />
-                                    </HorizontalStackLayout>
-                                    <HorizontalStackLayout
-                                        AbsoluteLayout.LayoutBounds="0.9,0.5"
-                                        AbsoluteLayout.LayoutFlags="PositionProportional"
-                                        HorizontalOptions="Center">
-                                        <Label Text="{Binding Day.MaxtempC}" TextColor="SkyBlue" />
-                                        <Label
-                                            FontSize="8"
-                                            Text="o"
-                                            TextColor="SkyBlue"
-                                            VerticalOptions="Start"
-                                            VerticalTextAlignment="Start" />
-                                    </HorizontalStackLayout>
-                                </AbsoluteLayout>
-                            </DataTemplate>
-                        </CollectionView.ItemTemplate>
-                    </CollectionView>
-                </VerticalStackLayout>
-            </ScrollView>
-
-        </Grid>
-
-    </RefreshView>
-</ContentPage>
+    <TabBar>
+        <ShellContent Title="Weather" Route="weather">
+            <ShellContent.Icon>
+                <FontImageSource FontFamily="IconFontTypes" Glyph="{x:Static fontHelper:IconFont.Home}" />
+            </ShellContent.Icon>
+            <local:WeatherPage />
+        </ShellContent>
+        <ShellContent Title="Favorites">
+            <ShellContent.Icon>
+                <FontImageSource FontFamily="IconFontTypes" Glyph="{x:Static fontHelper:IconFont.Favorite_outline}" />
+            </ShellContent.Icon>
+            <local:FavoritePage />
+        </ShellContent>
+    </TabBar>
+</Shell>

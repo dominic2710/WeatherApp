@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="WeatherAppClone.Pages.FavoritePage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:fontHelper="clr-namespace:WeatherAppClone.Helpers"
+    xmlns:viewModel="clr-namespace:WeatherAppClone.ViewModels"
+    Title="FavoritePage"
+    BackgroundColor="{DynamicResource SecondaryColor}">
+    <ContentPage.BindingContext>
+        <viewModel:FavoritePageViewModel />
+    </ContentPage.BindingContext>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="70" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <Frame
+            Margin="20"
+            BackgroundColor="#152c39"
+            CornerRadius="90"
+            HeightRequest="35">
+            <HorizontalStackLayout VerticalOptions="Center">
+                <Image BackgroundColor="Transparent" VerticalOptions="Center">
+                    <Image.Source>
+                        <FontImageSource
+                            FontFamily="IconFontTypes"
+                            Glyph="{x:Static fontHelper:IconFont.Search}"
+                            Size="18"
+                            Color="SkyBlue" />
+                    </Image.Source>
+                </Image>
+                <Label
+                    Margin="10,0,0,0"
+                    Text="Search"
+                    VerticalOptions="Center" />
+            </HorizontalStackLayout>
+        </Frame>
+
+        <CollectionView
+            Grid.Row="1"
+            Margin="20,20,20,0"
+            ItemsSource="{Binding WeatherForcastDays}">
+            <CollectionView.ItemsLayout>
+                <GridItemsLayout
+                    HorizontalItemSpacing="20"
+                    Orientation="Vertical"
+                    Span="2"
+                    VerticalItemSpacing="20" />
+            </CollectionView.ItemsLayout>
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame
+                        Padding="0"
+                        BackgroundColor="#152c39"
+                        CornerRadius="15"
+                        HeightRequest="170"
+                        HorizontalOptions="Start"
+                        VerticalOptions="Start">
+                        <AbsoluteLayout Margin="15,0,15,0">
+                            <AbsoluteLayout.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding Path=SelectLocationCommand, Source={RelativeSource AncestorType={x:Type viewModel:FavoritePageViewModel}}}" CommandParameter="{Binding}" />
+                            </AbsoluteLayout.GestureRecognizers>
+                            <Grid AbsoluteLayout.LayoutBounds="0,0.1" AbsoluteLayout.LayoutFlags="PositionProportional">
+                                <HorizontalStackLayout HorizontalOptions="Start" VerticalOptions="Center">
+                                    <Label FontSize="25" Text="{Binding Current.TempC}" />
+                                    <Label FontSize="10" Text="o" />
+                                    <Label FontSize="25" Text="C" />
+                                </HorizontalStackLayout>
+
+                                <Image
+                                    HeightRequest="48"
+                                    HorizontalOptions="End"
+                                    Source="{Binding Current.Condition.Icon, StringFormat='https:{0}'}"
+                                    VerticalOptions="Center"
+                                    WidthRequest="48" />
+                            </Grid>
+
+                            <Label
+                                AbsoluteLayout.LayoutBounds="0,0.5"
+                                AbsoluteLayout.LayoutFlags="PositionProportional"
+                                FontSize="13"
+                                Text="{Binding Location.Name}" />
+
+                            <Label
+                                AbsoluteLayout.LayoutBounds="0,0.7"
+                                AbsoluteLayout.LayoutFlags="PositionProportional"
+                                FontSize="13"
+                                Opacity="0.5"
+                                Text="{Binding Location.Country}" />
+
+                            <Image
+                                AbsoluteLayout.LayoutBounds="0,0.9"
+                                AbsoluteLayout.LayoutFlags="PositionProportional"
+                                BackgroundColor="Transparent"
+                                VerticalOptions="Center">
+                                <Image.Source>
+                                    <FontImageSource
+                                        FontFamily="IconFontTypes"
+                                        Glyph="{x:Static fontHelper:IconFont.Water_drop}"
+                                        Size="18"
+                                        Color="SkyBlue" />
+                                </Image.Source>
+                            </Image>
+                            <Label
+                                AbsoluteLayout.LayoutBounds="0.2,0.9"
+                                AbsoluteLayout.LayoutFlags="PositionProportional"
+                                FontSize="13"
+                                Text="{Binding Current.Humidity, StringFormat='{0}%'}"
+                                VerticalOptions="Center" />
+
+                            <Image
+                                AbsoluteLayout.LayoutBounds="0.5,0.9"
+                                AbsoluteLayout.LayoutFlags="PositionProportional"
+                                BackgroundColor="Transparent"
+                                VerticalOptions="Center">
+                                <Image.Source>
+                                    <FontImageSource
+                                        FontFamily="IconFontTypes"
+                                        Glyph="{x:Static fontHelper:IconFont.Air}"
+                                        Size="18"
+                                        Color="SkyBlue" />
+                                </Image.Source>
+                            </Image>
+                            <Label
+                                AbsoluteLayout.LayoutBounds="1,0.9"
+                                AbsoluteLayout.LayoutFlags="PositionProportional"
+                                FontSize="13"
+                                Text="{Binding Current.WindKph, StringFormat='{0} km/h'}"
+                                VerticalOptions="Center" />
+                        </AbsoluteLayout>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
+</ContentPage>

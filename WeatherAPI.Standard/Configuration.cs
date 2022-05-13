@@ -9,7 +9,7 @@ namespace WeatherAPI.Standard
         public static string BaseUri = "https://api.weatherapi.com/v1";
 
         //TODO: Replace the Key with an appropriate value
-        public static string Key = "";
+        public static string Key = "9832d6acd0e84274bbf30703221504";
 
     }
 }

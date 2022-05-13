@@ -9,37 +9,40 @@ using WeatherAPI.Standard;
 using WeatherAPI.Standard.Models;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
+using System.Web;
 
 namespace WeatherAppClone.ViewModels
 {
-    public class MainPageViewModel : INotifyPropertyChanged
+    public class WeatherPageViewModel : INotifyPropertyChanged, IQueryAttributable
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChangedEventHandler handler = PropertyChanged;
-            if (handler !=null)
+            if (handler != null)
                 handler(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public MainPageViewModel()
+        public WeatherPageViewModel()
         {
-            //Task.Run(async () =>
-            //{
-            //    await GetWeatherData();
-            //});
+            LocationName = "Thanh Pho Ho Chi Minh";
 
-            //RefreshCommand = new Command(() =>
-            //{
-            //    Task.Run(() =>
-            //    {
-            //        GetWeatherData().GetAwaiter().OnCompleted(()=>
-            //            {
-            //                IsRefreshing = false;
-            //            });
-            //    });
-            //});
+            Task.Run(async () =>
+            {
+                await GetWeatherData();
+            });
+
+            RefreshCommand = new Command(() =>
+            {
+                Task.Run(() =>
+                {
+                    GetWeatherData().GetAwaiter().OnCompleted(() =>
+                    {
+                        IsRefreshing = false;
+                    });
+                });
+            });
         }
 
         async Task GetWeatherData()
@@ -47,10 +50,12 @@ namespace WeatherAppClone.ViewModels
             try
             {
                 WeatherAPIClient client = new WeatherAPIClient();
-                var forecastWeather = await client.APIs.GetForecastWeatherAsync(locationNames[locationIndex], 3);
-                locationIndex++;
-                if (locationIndex >= locationNames.Length) locationIndex = 0;
-                     
+                //var forecastWeather = await client.APIs.GetForecastWeatherAsync(locationNames[locationIndex], 3);
+                //locationIndex++;
+                //if (locationIndex >= locationNames.Length) locationIndex = 0;
+
+                var forecastWeather = await client.APIs.GetForecastWeatherAsync(LocationName, 3);
+
                 LocationName = forecastWeather.Location.Name;
                 CurrentWeather = forecastWeather.Current;
 
@@ -64,10 +69,10 @@ namespace WeatherAppClone.ViewModels
                 //Join Hours of 2 days from now
                 var weatherForecastHours48 = new List<Hour>(forecastWeather.Forecast.Forecastday[0].Hours);
                 weatherForecastHours48.AddRange(new List<Hour>(forecastWeather.Forecast.Forecastday[1].Hours));
-                weatherForecastHours48.ForEach(x => x.Time = x.Time.Substring(11));
 
                 //Find index of next Hour
-                var nextHourIndex = weatherForecastHours48.IndexOf(weatherForecastHours48.Where(x => x.Time.CompareTo(DateTime.Now.ToString("HH:mm")) > 0).FirstOrDefault());
+                var nextHourIndex = weatherForecastHours48.IndexOf(weatherForecastHours48.Where(x => x.Time.CompareTo(forecastWeather.Location.Localtime) >= 0).FirstOrDefault());
+                weatherForecastHours48.ForEach(x => x.Time = x.Time.Substring(11));
 
                 //Get next 24 Hours from now
                 WeatherForecastHours = new ObservableCollection<Hour>(weatherForecastHours48.GetRange(nextHourIndex, 24));
@@ -81,7 +86,21 @@ namespace WeatherAppClone.ViewModels
             }
         }
 
-        private string[] locationNames = new string[] { "Thanh pho Ho Chi Minh", "London", "Paris", "Washington"};
+        public void ApplyQueryAttributes(IDictionary<string, object> query)
+        {
+            if (query.Count == 0) return;
+            LocationName = HttpUtility.UrlDecode(query["locationName"].ToString());
+
+            Task.Run(() =>
+            {
+                GetWeatherData().GetAwaiter().OnCompleted(() =>
+                {
+                    IsRefreshing = false;
+                });
+            });
+        }
+
+        private string[] locationNames = new string[] { "Thanh pho Ho Chi Minh", "London", "Paris", "Washington" };
         private int locationIndex = 0;
 
         private string locationName;
@@ -97,7 +116,7 @@ namespace WeatherAppClone.ViewModels
         }
         public Current CurrentWeather
         {
-            get { return currentWeather; }  
+            get { return currentWeather; }
             set { currentWeather = value; OnPropertyChanged(); }
         }
 
@@ -118,7 +137,7 @@ namespace WeatherAppClone.ViewModels
             get { return isRefreshing; }
             set { isRefreshing = value; OnPropertyChanged(); }
         }
-        
+
         public ICommand RefreshCommand { get; set; }
     }
 }

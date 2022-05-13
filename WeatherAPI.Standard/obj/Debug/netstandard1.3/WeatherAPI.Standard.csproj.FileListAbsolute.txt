@@ -1,0 +1,10 @@
+D:\PROGRAMINGS\GitRepos\WeatherApp\WeatherAPI.Standard\bin\Debug\netstandard1.3\WeatherAPI.Standard.deps.json
+D:\PROGRAMINGS\GitRepos\WeatherApp\WeatherAPI.Standard\bin\Debug\netstandard1.3\WeatherAPI.Standard.dll
+D:\PROGRAMINGS\GitRepos\WeatherApp\WeatherAPI.Standard\bin\Debug\netstandard1.3\WeatherAPI.Standard.pdb
+D:\PROGRAMINGS\GitRepos\WeatherApp\WeatherAPI.Standard\obj\Debug\netstandard1.3\WeatherAPI.Standard.csproj.AssemblyReference.cache
+D:\PROGRAMINGS\GitRepos\WeatherApp\WeatherAPI.Standard\obj\Debug\netstandard1.3\WeatherAPI.Standard.GeneratedMSBuildEditorConfig.editorconfig
+D:\PROGRAMINGS\GitRepos\WeatherApp\WeatherAPI.Standard\obj\Debug\netstandard1.3\WeatherAPI.Standard.AssemblyInfoInputs.cache
+D:\PROGRAMINGS\GitRepos\WeatherApp\WeatherAPI.Standard\obj\Debug\netstandard1.3\WeatherAPI.Standard.AssemblyInfo.cs
+D:\PROGRAMINGS\GitRepos\WeatherApp\WeatherAPI.Standard\obj\Debug\netstandard1.3\WeatherAPI.Standard.csproj.CoreCompileInputs.cache
+D:\PROGRAMINGS\GitRepos\WeatherApp\WeatherAPI.Standard\obj\Debug\netstandard1.3\WeatherAPI.Standard.dll
+D:\PROGRAMINGS\GitRepos\WeatherApp\WeatherAPI.Standard\obj\Debug\netstandard1.3\WeatherAPI.Standard.pdb

@@ -58,9 +58,20 @@
 	  <ProjectReference Include="..\WeatherAPI.Standard\WeatherAPI.Standard.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <MauiXaml Update="Pages\FavoritePage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\WeatherPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	</ItemGroup>
+
 	<PropertyGroup Condition="$(TargetFramework.Contains('-windows'))">
 		<OutputType>WinExe</OutputType>
 		<RuntimeIdentifier>win10-x64</RuntimeIdentifier>
 	</PropertyGroup>
+
+	<ProjectExtensions><VisualStudio><UserProperties XamarinHotReloadDebuggerTimeoutExceptionWeatherAppCloneHideInfoBar="True" /></VisualStudio></ProjectExtensions>
 	
 </Project>

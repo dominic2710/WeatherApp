@@ -5,5 +5,14 @@
     <IsFirstTimeProjectOpen>False</IsFirstTimeProjectOpen>
     <ActiveDebugProfile>Pixel 5 - API 30 (Android 11.0 - API 30)</ActiveDebugProfile>
     <SelectedPlatformGroup>Emulator</SelectedPlatformGroup>
+    <DefaultDevice>pixel_5_-_api_30</DefaultDevice>
   </PropertyGroup>
+  <ItemGroup>
+    <MauiXaml Update="Pages\FavoritePage.xaml">
+      <SubType>Designer</SubType>
+    </MauiXaml>
+    <MauiXaml Update="Pages\WeatherPage.xaml">
+      <SubType>Designer</SubType>
+    </MauiXaml>
+  </ItemGroup>
 </Project>
